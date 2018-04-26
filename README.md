@@ -26,7 +26,7 @@ In the following lab, we will be modeling all the models for The Daily Deli.  Th
   > Class methods are methods that are not called on an instance of the class, but on the class itself, for example Meal.byPrice() is a class method as it is called on the `Meal` class.  You can write a class method simply by preceding a method on a class with JavaScript's `static` keyword.  You can read more about class methods in JavaScript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static).
 
 `Delivery` class:
-  + `new Delivery()` — initialized with `meal` and `customer`; returns an object that has attributes of `mealId`, `customerId`, and `id`
+  + `new Delivery()` — initialized with `customer` and `meal`; returns an object that has attributes of `mealId`, `customerId`, and `id`
   + `meal()` - returns the meal associated with the delivery
   + `customer()` - returns the customer associated with the delivery
 

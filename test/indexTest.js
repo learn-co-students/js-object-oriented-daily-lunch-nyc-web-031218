@@ -13,7 +13,7 @@ describe('deliveries', function() {
     });
 
       it('creates a new Delivery with an instance of a Meal and an instance of a Customer', function(){
-        let delivery = new Delivery(meal, customer)
+        let delivery = new Delivery(customer, meal)
         expect(delivery).to.be.instanceof(Delivery)
         expect(delivery.mealId).to.equal(meal.id)
         expect(delivery.customerId).to.equal(customer.id)

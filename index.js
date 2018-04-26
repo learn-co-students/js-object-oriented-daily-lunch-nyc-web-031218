@@ -30,10 +30,20 @@ let Customer = (() => {
     }
 
     deliveries(){
-      debugger
+      // debugger
+      // let test = store.deliveries.filter((delivery) => {
+      //   return delivery.customerId === this.id
+      // })
+      // console.log(test)
+
+
       return store.deliveries.filter((delivery) => {
+        // console.log(`delivery.customerId: ${delivery.customerId}`)
+        // console.log(`this.id: ${this.id}`)
         return delivery.customerId === this.id
       })
+
+
     }
 
     totalSpent(){
@@ -60,14 +70,56 @@ let Meal = (() => {
       store.meals.push(this)
     }
 
+    static byPrice(){
+      return store.meals.sort((a, b)=>b.price - a.price)
+    }
+
+    deliveries(){
+      return store.deliveries.filter((delivery)=>delivery.mealId === this.id)
+
+    }
+
+    customers(){
+
+      //this.deliveries() returns an array of all deliveries with this meal
+      //pizza
+      //delivery 1 - pizza, harim
+      //delivery 2 - pizza, greg
+      //delivery 3 - pizza, mike
+      //result: [harim obj, greg obj, mike obj]
+
+
+      // debugger
+      return this.deliveries().forEach(function(delivery){
+        let arr = store.customers.slice()
+        // debugger
+        return arr.filter((customer) => customer.id === delivery.customerId)
+      })
+      // debugger
+
+
+
+
+
+
+
+    }
+    
+
   }
 })()
+
+
+
 
 let Delivery = (() => {
   let deliveryId = 0;
   return class Delivery{
-    constructor(meal, customer){
+    // debugger
+
+    constructor(customer, meal){
       this.id = ++deliveryId
+
       if(meal){
         this.mealId = meal.id
       }
@@ -77,6 +129,16 @@ let Delivery = (() => {
       }
 
       store.deliveries.push(this)
+    }
+
+    customer(){
+      return store.customers.find((customer)=>customer.id === this.customerId)
+
+    }
+
+    meal(){
+
+      return store.meals.find((meal) => meal.id === this.mealId)
     }
 
   }

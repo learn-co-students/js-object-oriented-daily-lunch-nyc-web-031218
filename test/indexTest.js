@@ -13,6 +13,7 @@ describe('deliveries', function() {
     });
 
       it('creates a new Delivery with an instance of a Meal and an instance of a Customer', function(){
+        // debugger
         let delivery = new Delivery(customer, meal);
         expect(delivery).to.be.instanceof(Delivery)
         expect(delivery.mealId).to.equal(meal.id)
@@ -234,6 +235,7 @@ describe('relating a delivery to a meal and a customer', function() {
     });
 
     it('has customers', function() {
+      // debugger
       expect(meal.customers()).to.include(customer);
       expect(meal.customers()).to.include(secondCustomer);
     });
@@ -329,6 +331,7 @@ describe('employerStats', function() {
   });
 
   it('displays the number of times each meal was ordered', function() {
+    // debugger
     // {pastaMealid: 1, chickenMealid: 2}
     expect(employer.mealTotals()[chicken.id]).to.equal(2);
     expect(employer.mealTotals()[pasta.id]).to.equal(1);

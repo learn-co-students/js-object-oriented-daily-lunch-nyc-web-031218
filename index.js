@@ -166,19 +166,37 @@ let Employer = (() => {
 
     deliveries(){
       // debugger
-      customerIds = this.employees().map((customer)=>customer.id)
+      // debugger
+      // customer has employer id
+      // delivery has customer id
+      let customerIds = this.employees().map((customer)=>customer.id)
 
-      var test = customerIds.map((customerId)=>
-        store.deliveries.filter((delivery)=> delivery.customerId === customerId)
-      )
+      // customerIds.map((customerId)=>
+      //
+      // )
 
-      debugger
-      console.log(customerIds)
-      return "5"
+      return store.deliveries.filter((delivery)=> customerIds.includes(delivery.customerId))
+      // debugger
+       // delivery.customerId === customerId)
+      //
+      // let deliveryArr = []
+      // for(let i=0; i<customerIds.length; i++){
+      //   deliveryArr.push(store.deliveries.filter((delivery)=> delivery.customerId === customerIds[i]))
+      //
+      // }
+      // debugger
+      // deliveryArr.flatten()
+      // debugger
+      // console.log(customerIds)
+      // return "5"
 
     }
 
     meals(){
+
+      var mealIds = this.deliveries().map((delivery)=>delivery.mealId)
+
+      return store.meals.filter((meal)=> mealIds.includes(meal.id))
 
 
     }

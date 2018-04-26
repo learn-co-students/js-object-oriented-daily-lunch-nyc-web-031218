@@ -54,7 +54,7 @@ let Customer = (() => {
     }
 
     totalSpent(){
-
+       return this.meals().reduce((acc, cur) => acc + cur.price, 0 )
     }
 
   }
@@ -198,6 +198,35 @@ let Employer = (() => {
 
       return store.meals.filter((meal)=> mealIds.includes(meal.id))
 
+
+    }
+
+    mealTotals(){
+
+      let mealIds = this.deliveries().map((delivery)=>delivery.mealId)
+
+      let meals = mealIds.map((id)=>
+        store.meals.find(
+          (meal)=>meal.id===id
+        )
+      )
+
+      // debugger
+      let count = {}
+
+      meals.forEach(function(meal){
+
+        if (!count[meal.id]){
+          count[meal.id] = 1
+        }else{
+          count[meal.id]++
+        }
+
+      })
+      // debugger
+
+      return count;
+      // debugger
 
     }
 

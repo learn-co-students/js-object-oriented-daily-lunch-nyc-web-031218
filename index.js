@@ -160,10 +160,21 @@ let Employer = (() => {
 
 
     employees(){
+      return store.customers.filter((customer)=>customer.employerId === this.id)
 
     }
 
     deliveries(){
+      // debugger
+      customerIds = this.employees().map((customer)=>customer.id)
+
+      var test = customerIds.map((customerId)=>
+        store.deliveries.filter((delivery)=> delivery.customerId === customerId)
+      )
+
+      debugger
+      console.log(customerIds)
+      return "5"
 
     }
 
@@ -171,7 +182,7 @@ let Employer = (() => {
 
 
     }
-    
+
   }
 
 })()

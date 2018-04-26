@@ -13,7 +13,7 @@ describe('deliveries', function() {
     });
 
       it('creates a new Delivery with an instance of a Meal and an instance of a Customer', function(){
-        let delivery = new Delivery(meal, customer)
+        let delivery = new Delivery(customer, meal);
         expect(delivery).to.be.instanceof(Delivery)
         expect(delivery.mealId).to.equal(meal.id)
         expect(delivery.customerId).to.equal(customer.id)
@@ -177,8 +177,8 @@ describe('customers', function() {
       customer = new Customer('Bob', employer);
       chickenParm = new Meal('Chicken Parm', 7);
       steak = new Meal('Steak', 10);
-      firstDelivery = new Delivery(steak, customer);
-      secondDelivery = new Delivery(chickenParm, customer);
+      firstDelivery = new Delivery(customer, chickenParm);
+      secondDelivery = new Delivery(customer, steak);
     });
 
     it('returns the total amount spent by the customer', function() {
@@ -198,9 +198,9 @@ describe('relating a delivery to a meal and a customer', function() {
   beforeEach(function() {
     meal = new Meal('Chicken Parm');
     customer = new Customer('Bob', employer);
-    firstDelivery = new Delivery(meal, customer);
+    firstDelivery = new Delivery(customer, meal);
     secondCustomer = new Customer('Susan', employer);
-    secondDelivery = new Delivery(meal, secondCustomer);
+    secondDelivery = new Delivery(secondCustomer, meal);
   });
 
   afterEach(function() {
@@ -267,11 +267,11 @@ describe('employers', function() {
     customer = new Customer('Fred', employer);
     chicken = new Meal('Chicken Parm');
     steak = new Meal('Steak');
-    firstDelivery = new Delivery(chicken, customer);
+    firstDelivery = new Delivery(customer, chicken);
     secondCustomer = new Customer('Susan', employer);
     thirdCustomer = new Customer('Sally', otherEmployer);
-    secondDelivery = new Delivery(chicken, secondCustomer);
-    thirdDelivery = new Delivery(chicken, thirdCustomer);
+    secondDelivery = new Delivery(secondCustomer, chicken);
+    thirdDelivery = new Delivery(thirdCustomer, chicken);
   });
 
   afterEach(function() {
@@ -315,10 +315,10 @@ describe('employerStats', function() {
     customer = new Customer('Fred', employer);
     chicken = new Meal('Chicken Parm');
     pasta = new Meal('Pasta');
-    firstDelivery = new Delivery(chicken, customer);
+    firstDelivery = new Delivery(customer, chicken);
     secondCustomer = new Customer('Susan', employer);
-    secondDelivery = new Delivery(chicken, secondCustomer);
-    thirdDelivery = new Delivery(pasta, secondCustomer);
+    secondDelivery = new Delivery(secondCustomer, chicken);
+    thirdDelivery = new Delivery(secondCustomer, pasta);
   });
 
   afterEach(function() {

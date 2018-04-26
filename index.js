@@ -27,6 +27,13 @@ let Customer = (() => {
       // return store.deliveries.filter((meal) => {
       //   return meal.customerId === this.id
       // })
+
+
+      let mealIds = this.deliveries().map((delivery)=> delivery.mealId)
+
+      // debugger
+
+      return store.meals.filter((meal) => mealIds.includes(meal.id))
     }
 
     deliveries(){
@@ -81,35 +88,23 @@ let Meal = (() => {
 
     customers(){
 
-      //this.deliveries() returns an array of all deliveries with this meal
-      //pizza
-      //delivery 1 - pizza, harim
-      //delivery 2 - pizza, greg
-      //delivery 3 - pizza, mike
-      //result: [harim obj, greg obj, mike obj]
 
 
-
-      var test =  this.deliveries().forEach(function(delivery){
-        // debugger
-        return store.customers.filter((customer) => (
-
-          customer.id === delivery.customerId
-        ))
-      })
-      debugger
-
-
-      // let customerIds = this.deliveries().map((delivery)=> delivery.customerId)
+      // var test =  this.deliveries().forEach(function(delivery){
+      //   // debugger
+      //   return store.customers.filter((customer) => (
       //
-      // return store.customers.filter((cust) => customerIds.includes(cust.id))
+      //     customer.id === delivery.customerId
+      //   ))
+      // })
+      // debugger
 
 
+      let customerIds = this.deliveries().map((delivery)=> delivery.customerId)
 
+      // debugger
 
-
-
-
+      return store.customers.filter((customer) => customerIds.includes(customer.id))
     }
 
 
@@ -161,6 +156,22 @@ let Employer = (() => {
 
       store.employers.push(this)
     }
+
+
+
+    employees(){
+
+    }
+
+    deliveries(){
+
+    }
+
+    meals(){
+
+
+    }
+    
   }
 
 })()

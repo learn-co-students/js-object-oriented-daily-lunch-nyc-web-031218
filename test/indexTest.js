@@ -235,7 +235,7 @@ describe('relating a delivery to a meal and a customer', function() {
     });
 
     it('has customers', function() {
-      debugger
+      // debugger
       expect(meal.customers()).to.include(customer);
       expect(meal.customers()).to.include(secondCustomer);
     });

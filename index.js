@@ -89,13 +89,20 @@ let Meal = (() => {
       //result: [harim obj, greg obj, mike obj]
 
 
-      // debugger
-      return this.deliveries().forEach(function(delivery){
-        let arr = store.customers.slice()
+
+      var test =  this.deliveries().forEach(function(delivery){
         // debugger
-        return arr.filter((customer) => customer.id === delivery.customerId)
+        return store.customers.filter((customer) => (
+
+          customer.id === delivery.customerId
+        ))
       })
-      // debugger
+      debugger
+
+
+      // let customerIds = this.deliveries().map((delivery)=> delivery.customerId)
+      //
+      // return store.customers.filter((cust) => customerIds.includes(cust.id))
 
 
 
@@ -104,7 +111,7 @@ let Meal = (() => {
 
 
     }
-    
+
 
   }
 })()

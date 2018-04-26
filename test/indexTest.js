@@ -2,28 +2,39 @@ const expect = chai.expect;
 
 describe('deliveries', function() {
   describe('creating a new delivery', function() {
+    let meal = new Meal('Chicken', 7)
+    let employer = new Employer('Initech')
+    let customer = new Customer('Matt', employer)
+
     describe('store', function() {
       it('can store drivers', function() {
         expect(store.deliveries).to.be.instanceof(Array);
       });
     });
 
+      it('creates a new Delivery with an instance of a Meal and an instance of a Customer', function(){
+        let delivery = new Delivery(meal, customer)
+        expect(delivery).to.be.instanceof(Delivery)
+        expect(delivery.mealId).to.equal(meal.id)
+        expect(delivery.customerId).to.equal(customer.id)
+      })
+
     it('adds the delivery to the store', function() {
       store.deliveries = [];
-      let delivery = new Delivery();
+      let delivery = new Delivery(customer, meal);
       expect(store.deliveries[0]).to.be.instanceof(Delivery);
     });
 
     it('adds a numerical id to each delivery', function() {
       store.deliveries = [];
-      let delivery = new Delivery();
+      let delivery = new Delivery(customer, meal);
       expect(typeof store.deliveries[0].id).to.equal('number');
     });
 
     it('adds a unique id to each delivery', function() {
       store.deliveries = [];
-      let delivery = new Delivery();
-      let otherDelivery = new Delivery();
+      let delivery = new Delivery(customer, meal);
+      let otherDelivery = new Delivery(customer, meal);
       expect(delivery.id).to.not.equal(otherDelivery.id);
     });
   });
@@ -37,25 +48,22 @@ describe('meals', function() {
       });
     });
 
-    it('can create a Meal with a name', function() {
-      let meal = new Meal('Chicken Parm');
-      expect(meal.title).to.equal('Chicken Parm');
-    });
-
-    it('has a price listed as a number', function() {
-      let meal = new Meal('Chicken Parm', 7);
-      expect(meal.price).to.equal(7);
-    });
+    it('creates a new Meal with a title and a price', function(){
+      let chicken = new Meal('Chicken', 7)
+      expect(chicken).to.be.instanceof(Meal)
+      expect(chicken.title).to.equal('Chicken')
+      expect(chicken.price).to.equal(7)
+    })
 
     it('adds the meal to the store', function() {
       store.meals = [];
-      let meal = new Meal('Chicken Parm');
+      let meal = new Meal('Chicken Parm', 7);
       expect(store.meals[0].title).to.equal('Chicken Parm');
     });
 
     it('adds a numerical id to each meal', function() {
       store.meals = [];
-      let meal = new Meal('Chicken Parm');
+      let meal = new Meal('Chicken Parm', 7);
       expect(typeof store.meals[0].id).to.equal('number');
     });
 
@@ -109,14 +117,14 @@ describe('employers', function() {
 
     it('adds a numerical id to each employer', function() {
       store.employers = [];
-      let employer = new Employer();
+      let employer = new Employer('Initech');
       expect(typeof store.employers[0].id).to.equal('number');
     });
 
     it('adds a unique id to each employer', function() {
       store.employers = [];
-      let employer = new Employer();
-      let otherEmployer = new Employer();
+      let employer = new Employer('Initech');
+      let otherEmployer = new Employer('Skynet');
       expect(employer.id).to.not.equal(otherEmployer.id);
     });
   });
@@ -131,26 +139,30 @@ describe('customers', function() {
     });
 
     it('can create a Customer with a name', function() {
-      let customer = new Customer('Sam');
+      let employer = new Employer('Initech');
+      let customer = new Customer('Sam', employer);
       expect(customer.name).to.equal('Sam');
     });
 
     it('adds the customer to the store', function() {
       store.customers = [];
-      let customer = new Customer('Sam');
+      let employer = new Employer('Initech');
+      let customer = new Customer('Sam', employer);
       expect(store.customers[0]).to.be.instanceof(Customer);
     });
 
     it('adds a numerical id to each customer', function() {
       store.customers = [];
-      let customer = new Customer();
+      let employer = new Employer('Initech');
+      let customer = new Customer('Sam', employer);
       expect(typeof store.customers[0].id).to.equal('number');
     });
 
     it('adds a unique id to each customer', function() {
       store.customers = [];
-      let customer = new Customer();
-      let otherCustomer = new Customer();
+      let employer = new Employer('Initech');
+      let customer = new Customer('Sam', employer);
+      let otherCustomer = new Customer('Charlie', employer);
       expect(customer.id).to.not.equal(otherCustomer.id);
     });
   });
@@ -162,7 +174,7 @@ describe('customers', function() {
     let firstDelivery;
     let secondDelivery;
     beforeEach(function() {
-      customer = new Customer('Bob');
+      customer = new Customer('Bob', employer);
       chickenParm = new Meal('Chicken Parm', 7);
       steak = new Meal('Steak', 10);
       firstDelivery = new Delivery(steak, customer);
@@ -181,12 +193,13 @@ describe('relating a delivery to a meal and a customer', function() {
   let firstDelivery;
   let secondCustomer;
   let secondDelivery;
+  employer = new Employer('Initech');
 
   beforeEach(function() {
     meal = new Meal('Chicken Parm');
-    customer = new Customer('Bob');
+    customer = new Customer('Bob', employer);
     firstDelivery = new Delivery(meal, customer);
-    secondCustomer = new Customer('Susan');
+    secondCustomer = new Customer('Susan', employer);
     secondDelivery = new Delivery(meal, secondCustomer);
   });
 

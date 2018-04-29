@@ -1,132 +1,113 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @laura-campbell
-Sign out
-0
-0 19 laura-campbell/js-object-oriented-daily-lunch-nyc-web-031218
-forked from learn-co-students/js-object-oriented-daily-lunch-nyc-web-031218
- Code  Pull requests 0  Projects 0  Insights  Settings
-js-object-oriented-daily-lunch-nyc-web-031218/index.js
-8f35cdf  on Oct 11, 2017
-@alexgriff alexgriff fix tests and byPrice method
-@gj @alexgriff
-
-115 lines (108 sloc)  2.47 KB
-let store = { deliveries: [], employers: [], customers: [], meals: [] };
-
-let mealId = 0;
-
+store = {meals: [], customers: [], deliveries: [], employers: []}
+MealId = 0
 class Meal {
   constructor(title, price) {
-    this.title = title;
-    this.price = price;
-    this.id = ++mealId;
-    store.meals.push(this);
-  }
-  deliveries() {
-    return store.deliveries.filter(delivery => {
-      return delivery.mealId == this.id;
-    });
-  }
-  customers() {
-    return this.deliveries().map(delivery => {
-      return delivery.customer();
-    });
+    this.title = title
+    this.price = price
+    this.id = ++MealId
+    store.meals.push(this)
   }
   static byPrice() {
-    return store.meals.sort((meal1, meal2) => {
-      return meal1.price < meal2.price;
-    });
+  return store.meals.sort((a,b) => { return b.price - a.price})
+  }
+  deliveries()  {
+    return store.deliveries.filter(delivery => {
+      return delivery.meal() === this
+    })
+  }
+  customers() {
+    let deliveries = this.deliveries()
+    return deliveries.map(delivery => {
+      return delivery.customer()
+    })
   }
 }
-
-let customerId = 0;
+CustomerId = 0
 class Customer {
-  constructor(name, employer = {}) {
-    this.name = name;
-    this.employerId = employer.id;
-    this.id = ++customerId;
-    store.customers.push(this);
+  constructor(name, employer) {
+    this.name = name
+    this.employerId = employer.id
+    this.id = ++CustomerId
+    store.customers.push(this)
   }
-  totalSpent() {
-    return this.meals().reduce(function(sum, meal) {
-      return sum + meal.price;
-    }, 0);
-  }
-  deliveries() {
+  deliveries()  {
     return store.deliveries.filter(delivery => {
-      return delivery.customerId == this.id;
-    });
+      return delivery.customer() === this
+    })
   }
   meals() {
-    return this.deliveries().map(delivery => {
-      return delivery.meal();
-    });
+    let deliveries = this.deliveries()
+    return deliveries.map(delivery => {
+      return delivery.meal()
+    })
+  }
+  totalSpent() {
+  return this.meals().reduce((agg, meal) => {
+    return agg + meal.price
+    }, 0)
   }
 }
-
-let deliveryId = 0;
+DeliveryId = 0
 class Delivery {
-  constructor(meal = {}, customer = {}) {
-    this.mealId = meal.id;
-    this.customerId = customer.id;
-    this.id = ++deliveryId;
-    store.deliveries.push(this);
-  }
-  meal() {
-    return store.meals.find(meal => {
-      return meal.id === this.mealId;
-    });
+  constructor(customer, meal) {
+    this.customerId = customer.id
+    this.mealId = meal.id
+    this.id = ++DeliveryId
+    store.deliveries.push(this)
   }
   customer() {
     return store.customers.find(customer => {
-      return customer.id === this.customerId;
-    });
+      return customer.id === this.customerId
+    })
+  }
+  meal() {
+    return store.meals.find(meal => {
+      return meal.id === this.mealId
+    })
   }
 }
-
-let employerId = 0;
-
+EmployerId = 0
 class Employer {
   constructor(name) {
-    this.name = name;
-    this.id = ++employerId;
-    store.employers.push(this);
-  }
-  mealTotals() {
-    let allMeals = this.deliveries().map(delivery => {
-      return delivery.meal();
-    });
-    let summaryObject = {};
-    allMeals.forEach(function(meal) {
-      summaryObject[meal.id] = 0;
-    });
-    allMeals.forEach(function(meal) {
-      summaryObject[meal.id] += 1;
-    });
-    return summaryObject;
+    this.name = name
+    this.id = ++EmployerId
+    store.employers.push(this)
   }
   employees() {
     return store.customers.filter(customer => {
-      return customer.employerId == this.id;
-    });
+      return customer.employerId === this.id
+    })
   }
   deliveries() {
-    let allDeliveries = this.employees().map(employee => {
-      return employee.deliveries();
-    });
-    let merged = [].concat.apply([], allDeliveries);
-    return merged;
+    let employees = this.employees()
+    let result = []
+    employees.forEach(employee => {
+      employee.deliveries().forEach(delivery => {
+        result.push(delivery)
+      })
+    })
+  return result
+  }
+  allmeals() {
+    return this.deliveries().map(delivery => {
+        return delivery.meal()
+      })
   }
   meals() {
-    let allMeals = this.deliveries().map(delivery => {
-      return delivery.meal();
-    });
-    let uniqueMeals = [...new Set(allMeals)];
-    return uniqueMeals;
+  let notunique = this.allmeals()
+
+  let unique = [...new Set(notunique)]
+  return unique
   }
+  mealTotals() {
+    return this.allmeals().reduce((object, meal) => {
+      if (object[meal.id]) {
+        ++object[meal.id]
+      }
+      else {
+      object[meal.id] = 1
+      }
+      return object
+    }, {})
+  }
+}
